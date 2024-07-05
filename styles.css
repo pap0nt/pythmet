@@ -1,0 +1,206 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    position: relative;
+    background-color: black;
+}
+
+#backgroundVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 50%;
+}
+
+.container {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    margin-bottom: 20px;
+}
+
+.canvas-container {
+    background-image: url('images/photo-bg.jpg');
+    border: 0.5px #110F23;
+    border-radius: 15px;
+    background-size: cover;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    position: relative;
+    display: inline-block;
+}
+
+canvas {
+    background-image: url('images/photo-bg.jpg');
+    border: 0.5px #110F23;
+    border-radius: 15px;
+    background-size: cover;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+}
+
+.flip-button {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #110F23;
+    color: white;
+    border-radius: 5px;
+    border: 2px solid #110F23;
+    text-align: center;
+}
+
+.flip-button:hover {
+    opacity: 90%;
+}
+
+#resizeSlider {
+    width: 450px;
+    margin-top: 10px;
+    background-color: #110F23;
+}
+
+#saveButton {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #110F23;
+    color: white;
+    border-radius: 5px;
+    border: 2px solid #110F23;
+    text-align: center;
+}
+
+#saveButton:hover {
+    opacity: 90%;
+}
+
+input::file-selector-button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px #110F23;
+    background-color: #110F23;
+    color: aliceblue;
+    box-shadow: none;
+  }
+
+  input [type=file] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 250px;
+}
+
+
+.file-upload-container {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #110F23;
+    color: white;
+    border-radius: 5px;
+    border: 2px solid #110F23;
+    text-align: center;
+}
+
+.custom-file-upload:hover {
+    opacity: 90%;
+}
+
+#resizeSlider {
+    -webkit-appearance: none; /* Убирает стандартный стиль */
+    width: 450px;
+    margin-top: 10px;
+    background-color: #110F23;
+}
+
+/* Стиль для трека ползунка */
+#resizeSlider::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 5px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: #110F23;
+    border-radius: 1.3px;
+    border: 0.2px solid #110F23;
+}
+
+#resizeSlider::-moz-range-track {
+    width: 100%;
+    height: 8.4px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: #110F23;
+    border-radius: 1.3px;
+    border: 0.2px solid #110F23;
+}
+
+/* Стиль для ползунка */
+#resizeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: 1px solid #110F23;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    cursor: pointer;
+    margin-top: -5px;
+}
+
+#resizeSlider::-moz-range-thumb {
+    border: 1px solid #110F23;
+    height: 18px;
+    width: 18px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    cursor: pointer;
+}
+
+/* Hover эффекты */
+#resizeSlider:hover::-webkit-slider-thumb {
+    background: #CCCCCC;
+}
+
+#resizeSlider:hover::-moz-range-thumb {
+    background: #CCCCCC;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
+
+.button-container {
+    margin-top: 20px;
+}
