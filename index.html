@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pyth Me Up!</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
     <script src="https://cdn.jsdelivr.net/npm/konva@8.0.2/konva.min.js"></script>
 </head>
 <body>
@@ -13,23 +12,32 @@
         <source src="images/background.webm" type="video/mp4">
     </video>
     <div class="container noselect">
-        <div class="logo">
-            <img src="images/pythlogo.png" alt="Logo" width="50">
-        </div>
-        <!-- <input type="file" id="backgroundImageInput" accept="image/*" class="buttonImg"> -->
-        <div class="file-upload-container">
-            <label class="custom-file-upload ">
-                <input type="file" id="backgroundImageInput" accept="image/*" class="buttonImg">
-                <!-- <input type="file" id="fileInput"> -->
-                UPLOAD PFP
-            </label>
+        <div class="version">
+            <p>Version 1.0</p>
         </div>
         <div id="canvas-container" class="canvas-container"></div>
-        <div class="button-container">
-            <button id="saveButton">SAVE</button>
-            <button id="flipButton" class="flip-button">FLIP</button>
+        <div class="helmet-preview-container">
+            <button id="prevHelmetButton" class="arrow-button">❮</button>
+            <div id="helmetPreview" class="helmet-preview"></div>
+            <button id="nextHelmetButton" class="arrow-button">❯</button>
         </div>
-
+        <div class="button-container">
+            <div class="file-upload-container" id="uploadContainer">
+                <label class="custom-file-upload">
+                    <input type="file" id="backgroundImageInput" accept="image/*">
+                    UPLOAD PFP
+                </label>
+            </div>
+            <div class="saveBtn" id="saveContainer" style="display: none;">
+                <button id="saveButton">SAVE</button>
+            </div>
+            <div class="resetBtn" id="resetContainer" style="display: none;">
+                <button id="resetButton">RESET</button>
+            </div>
+        </div>
+    </div>
+    <div class="pirbImg">
+        <img src="./images/PIRB.png" class="PIRB" title="Developed by Southgarden & Pap0nt">
     </div>
     <script src="script.js"></script>
 </body>

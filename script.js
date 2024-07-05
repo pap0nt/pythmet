@@ -8,7 +8,6 @@ document.addEventListener('DOMContentLoaded', function() {
         height: stageHeight,
     });
 
-    // Adjust position of the stage to center it on the screen
     const container = document.getElementById('canvas-container');
     container.style.display = 'flex';
     container.style.justifyContent = 'center';
@@ -21,19 +20,56 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let backgroundImageObj = new Image();
     const backgroundImageInput = document.getElementById('backgroundImageInput');
-    backgroundImageInput.addEventListener('change', (event) => {
+    const saveContainer = document.getElementById('saveContainer');
+    const uploadContainer = document.getElementById('uploadContainer');
+    const resetContainer = document.getElementById('resetContainer');
+
+    backgroundImageInput.addEventListener('change', handleBackgroundImageUpload);
+
+    function handleBackgroundImageUpload(event) {
         const file = event.target.files[0];
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            backgroundImageObj.src = e.target.result;
-            backgroundImageObj.onload = function() {
-                drawBackground();
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                backgroundImageObj.src = e.target.result;
+                backgroundImageObj.onload = function() {
+                    drawBackground();
+                    showSaveButton();
+                };
             };
-        };
-        reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
+        }
+    }
+
+    function showSaveButton() {
+        uploadContainer.style.display = 'none';
+        saveContainer.style.display = 'block';
+        resetContainer.style.display = 'block';
+    }
+
+    function showUploadButton() {
+        uploadContainer.style.display = 'block';
+        saveContainer.style.display = 'none';
+        resetContainer.style.display = 'none';
+        resetBackground();
+        initializeHelmet();
+    }
+
+    document.getElementById('resetButton').addEventListener('click', () => {
+        showUploadButton();
     });
 
-    let helmetImages = ['images/pythmet1.png', 'images/pythmet2.png', 'images/pythmet3.png', 'images/pythmet4.png', 'images/pythmet5.png', 'images/pythmet6.png', 'images/pythmet7.png', 'images/pythmet8.png', 'images/pythmet9.png' ];
+    function resetBackground() {
+        backgroundLayer.removeChildren();
+        backgroundLayer.batchDraw();
+        backgroundImageInput.value = '';  // Reset the input value to ensure change event triggers
+    }
+
+    let helmetImages = [
+        'images/pythmet1.png', 'images/pythmet2.png', 'images/pythmet3.png',
+        'images/pythmet4.png', 'images/pythmet5.png', 'images/pythmet6.png',
+        'images/pythmet7.png', 'images/pythmet8.png', 'images/pythmet9.png'
+    ];
     let currentHelmetIndex = 0;
     let helmetImageObj = new Image();
     helmetImageObj.onload = function() {
@@ -41,9 +77,8 @@ document.addEventListener('DOMContentLoaded', function() {
     };
     helmetImageObj.src = helmetImages[currentHelmetIndex];
 
-    let transformer; // Declare transformer variable
+    let transformer;
 
-    // Function to draw the background image
     function drawBackground() {
         let background = new Konva.Image({
             x: 0,
@@ -57,11 +92,10 @@ document.addEventListener('DOMContentLoaded', function() {
         backgroundLayer.batchDraw();
     }
 
-    // Function to initialize helmet image
     function initializeHelmet() {
         let helmet = new Konva.Image({
             x: 140,
-            y: 150,
+            y: 20,
             image: helmetImageObj,
             draggable: true,
         });
@@ -78,20 +112,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
         helmet.on('click', function(e) {
             showTransformer();
-            e.cancelBubble = true; // Prevent event bubbling to stage
+            e.cancelBubble = true;
         });
 
-        // Add to helmet layer
         helmetLayer.removeChildren();
         helmetLayer.add(helmet);
 
-        // Create Transformer instance and attach to helmet
         transformer = new Konva.Transformer({
             nodes: [helmet],
             keepRatio: true,
             rotateEnabled: true,
-            enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right'],
-            enabledHandlers: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'middle-left', 'middle-right', 'middle-top', 'middle-bottom'],
+            enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'middle-left', 'middle-right', 'middle-top', 'middle-bottom'],
         });
         handlesLayer.removeChildren();
         handlesLayer.add(transformer);
@@ -99,52 +130,60 @@ document.addEventListener('DOMContentLoaded', function() {
         stage.batchDraw();
     }
 
-    // Event listener for flipping helmet image
-    const flipButton = document.getElementById('flipButton');
-    flipButton.addEventListener('click', () => {
-        currentHelmetIndex = (currentHelmetIndex + 1) % helmetImages.length;
-        helmetImageObj.src = helmetImages[currentHelmetIndex];
+    function updateHelmetPreview() {
+        const previewContainer = document.getElementById('helmetPreview');
+        previewContainer.innerHTML = '';
+        for (let i = currentHelmetIndex; i < currentHelmetIndex + 3; i++) {
+            const img = document.createElement('img');
+            img.src = helmetImages[i % helmetImages.length];
+            img.addEventListener('click', () => {
+                helmetImageObj.src = img.src;
+            });
+            previewContainer.appendChild(img);
+        }
+    }
+
+    document.getElementById('prevHelmetButton').addEventListener('click', () => {
+        currentHelmetIndex = (currentHelmetIndex - 1 + helmetImages.length) % helmetImages.length;
+        updateHelmetPreview();
     });
 
-    // Event listener for saving the image
+    document.getElementById('nextHelmetButton').addEventListener('click', () => {
+        currentHelmetIndex = (currentHelmetIndex + 1) % helmetImages.length;
+        updateHelmetPreview();
+    });
+
+    updateHelmetPreview();
+
     const saveButton = document.getElementById('saveButton');
     saveButton.addEventListener('click', () => {
-        // Hide Transformer before saving
         hideTransformer();
-        
-        // Save canvas as image
         stage.toDataURL({
             callback: function(dataUrl) {
                 const link = document.createElement('a');
                 link.download = 'pythmeted.jpg';
                 link.href = dataUrl;
                 link.click();
-                
-                // Show Transformer after saving (optional)
                 showTransformer();
             }
         });
     });
 
-    // Function to update helmetDiv position and size (similar to your updateHelmetDiv)
     function updateHelmetDiv() {
         // Implement based on your requirements, adjusting position and size of a div element
-        // that mirrors the helmet's position and size on canvas.
     }
 
-    // Function to show Transformer
     function showTransformer() {
         if (transformer) {
             transformer.show();
-            handlesLayer.batchDraw(); // Redraw the layer to reflect changes
+            handlesLayer.batchDraw();
         }
     }
 
-    // Function to hide Transformer
     function hideTransformer() {
         if (transformer) {
             transformer.hide();
-            handlesLayer.batchDraw(); // Redraw the layer to reflect changes
+            handlesLayer.batchDraw();
         }
     }
 });
