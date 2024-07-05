@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
             nodes: [helmet],
             keepRatio: true,
             rotateEnabled: true,
-            enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'middle-left', 'middle-right', 'middle-top', 'middle-bottom'],
+            enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'middle-left', 'middle-right', 'bottom-center'],
         });
         handlesLayer.removeChildren();
         handlesLayer.add(transformer);
