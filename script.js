@@ -68,7 +68,8 @@ document.addEventListener('DOMContentLoaded', function() {
     let helmetImages = [
         'images/pythmet1.png', 'images/pythmet2.png', 'images/pythmet3.png',
         'images/pythmet4.png', 'images/pythmet5.png', 'images/pythmet6.png',
-        'images/pythmet7.png', 'images/pythmet8.png', 'images/pythmet9.png'
+        'images/pythmet7.png', 'images/pythmet8.png', 'images/pythmet9.png',
+        'images/pythmet10.png'
     ];
     let currentHelmetIndex = 0;
     let helmetImageObj = new Image();
