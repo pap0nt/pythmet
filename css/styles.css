@@ -1,0 +1,304 @@
+body {
+    margin: 0;
+    padding: 50px;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    /* align-items: center; */
+    height: 80vh;
+    font-family: Arial, sans-serif;
+    position: relative;
+    background-color: black;
+    font-family: 'Cabinet Grotesk', sans-serif;
+}
+
+#backgroundVideo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    opacity: 50%;
+}
+
+.container {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: center;
+}
+
+.logo {
+    margin-bottom: 20px;
+}
+
+.canvas-container {
+    background-image: url('images/photo-bg-zarp.png');
+    background-color: #ffffff5b;
+    background-blend-mode: hard-light;
+    border-radius: 15px;
+    background-size: cover;
+    /* margin-top: 20px; */
+    border: 1px solid #ffffff;
+    position: relative;
+    display: inline-block;
+}
+
+canvas {
+    background-image: url('images/photo-bg-zarp.png');
+    border: 0.5px #110F23;
+    border-radius: 15px;
+    background-size: cover;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+}
+
+.flip-button {
+    display: inline-block;
+    cursor: pointer;
+    background-color: #110F23;
+    color: white;
+    border-radius: 5px;
+    border: 2px solid #110F23;
+    text-align: center;
+    font-size: 13px;
+    line-height: 15px;
+    padding: 10px 20px;
+}
+
+.flip-button:hover {
+    opacity: 90%;
+}
+
+/* #resizeSlider {
+    width: 450px;
+    margin-top: 10px;
+    background-color: #110F23;
+} */
+
+#saveButton {
+    font-family: 'Familjen Grotesk', sans-serif;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #110F23;
+    border-radius: 5px;
+    border: 2px solid #110F23;
+    text-align: center;
+    font-size: 13px;
+    line-height: 15px;
+    padding: 10px 20px;
+    color: #E6DAFE;
+    transition: all 0.2s ease-in-out;
+}
+
+#resetButton {
+    font-family: 'Familjen Grotesk', sans-serif;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #110F23;
+    border-radius: 5px;
+    border: 2px solid #110F23;
+    text-align: center;
+    font-size: 13px;
+    line-height: 15px;
+    padding: 10px 20px;
+    color: #E6DAFE;
+    transition: all 0.2s ease-in-out;
+}
+
+#resetButton:hover {
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 0 5px 15px #110F2366;
+}
+
+#saveButton:hover {
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 0 5px 15px #110F2366;
+}
+
+input::file-selector-button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px #110F23;
+    background-color: #110F23;
+    color: aliceblue;
+    box-shadow: none;
+  }
+
+  input [type=file] {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 250px;
+}
+
+
+.file-upload-container {
+    position: relative;
+    /* margin-bottom: 20px; */
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    cursor: pointer;
+    background-color: #110F23;
+    border-radius: 7.5px;
+    border: 2px solid #110F23;
+    text-align: center;
+    font-size: 13px;
+    line-height: 15px;
+    padding: 10px 20px;
+    color: #E6DAFE;
+    transition: all 0.2s ease-in-out;
+}
+
+.custom-file-upload:hover {
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 0 5px 15px #110F2366;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Old versions of Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome, Edge, Opera and Firefox */
+  }
+
+.save-reset-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.button-container {
+    display: flex;
+    align-items: center;
+    font-family: 'Familjen Grotesk', sans-serif;
+}
+
+.PIRB {
+    width: 30px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
+
+.button {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #110F23;
+    color: white;
+    border-radius: 5px;
+    border: 2px solid #110F23;
+    text-align: center;
+    font-size: 16px;
+    height: 40px;  
+    line-height: 18px;
+    transition: all 0.2s ease-in-out;
+}
+
+.button:hover {
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+}
+
+.helmet-preview-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+    height: 100px;
+    gap: 10px;
+}
+
+.helmet-preview {
+    display: flex;
+    overflow: hidden;
+    padding: 10px;
+    width: 250px;
+    height: 100px;
+    gap: 10px;
+    align-items: center;
+    /* border: 1px solid #fff;
+    border-radius: 15px;
+    background-color: #ffffff5b; */
+}
+
+.helmet-preview img {
+    width: 75px;
+    cursor: pointer;
+}
+
+.arrow-button {
+    background-color: #110F23;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    color: #E6DAFE;
+    transition: all 0.2s ease-in-out;
+}
+
+.arrow-button:hover {
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 0 5px 15px #110F2366;
+}
+
+.version p{ 
+    font-family: 'Familjen Grotesk', sans-serif;
+    font-size: 50px;
+    line-height: 53px;   
+    color: #fff;
+}
+
+#preloader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #110F23;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 1000;
+    transition: opacity 1s ease-out;
+}
+
+#preloader img {
+    width: 250px;
+    margin-bottom: 20px;
+}
+
+#enterButton {
+    font-family: 'Familjen Grotesk', sans-serif;
+    padding: 10px 10px;
+    background-color: #7142CF;
+    color: #E6DAFE;
+    border: 0.5px solid #e6dafea4;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 400;
+    transition: all 0.2s ease-in-out;
+}
+
+#enterButton:hover {
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+}
