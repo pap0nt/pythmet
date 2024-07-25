@@ -39,7 +39,7 @@ body {
 }
 
 .canvas-container {
-    background-image: url('images/photo-bg-zarp.png');
+    background-image: url('../images/photo-bg-zarp.png');
     background-color: #ffffff5b;
     background-blend-mode: hard-light;
     border-radius: 15px;
@@ -51,7 +51,7 @@ body {
 }
 
 canvas {
-    background-image: url('images/photo-bg-zarp.png');
+    background-image: url('../images/photo-bg-zarp.png');
     border: 0.5px #110F23;
     border-radius: 15px;
     background-size: cover;
