@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         'images/pythmets/pythmet1.png', 'images/pythmets/pythmet2.png', 'images/pythmets/pythmet3.png',
         'images/pythmets/pythmet4.png', 'images/pythmets/pythmet5.png', 'images/pythmets/pythmet6.png',
         'images/pythmets/pythmet7.png', 'images/pythmets/pythmet8.png', 'images/pythmets/pythmet9.png',
-        'images/pythmets/pythmet10.png', 'images/pythmets/pythmet11.png'
+        'images/pythmets/pythmet10.png', 'images/pythmets/pythmet11.png', 'images/pythmets/pythmet12.png'
     ];
     let currentHelmetIndex = 0;
     let helmetImageObj = new Image();
