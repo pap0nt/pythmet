@@ -16,24 +16,176 @@ document.addEventListener('DOMContentLoaded', function() {
     const backgroundLayer = new Konva.Layer();
     const helmetLayer = new Konva.Layer();
     const handlesLayer = new Konva.Layer();
-    stage.add(backgroundLayer, helmetLayer, handlesLayer);
+
 
     let backgroundImageObj = new Image();
     const backgroundImageInput = document.getElementById('backgroundImageInput');
     const saveContainer = document.getElementById('saveContainer');
     const uploadContainer = document.getElementById('uploadContainer');
+    const laserContainer = document.getElementById('laserContainer');
     const resetContainer = document.getElementById('resetContainer');
+    const backgroundVideo = document.getElementById('backgroundVideo');
 
     backgroundImageInput.addEventListener('change', handleBackgroundImageUpload);
+
+    const laserImagePaths = [
+        'images/laser/laser1.png',
+        'images/laser/laser2.png',
+        'images/laser/laser3.png',
+        'images/laser/laser5.png',
+        'images/laser/laser7.png'
+
+    ];
+    const laserLayer = new Konva.Layer();
+    const vignetteLayer = new Konva.Layer();
+    let laserImage = null; // Текущий лазер
+    let currentLaserIndex = -1; // Индекс текущего лазера
+    stage.add(backgroundLayer, helmetLayer, handlesLayer, vignetteLayer, laserLayer );
+
+    const addLaserButton = document.getElementById('addLaserButton');
+    addLaserButton.addEventListener('click', () => {
+        if (currentLaserIndex === -1) {
+            // Если слой лазера ещё не добавлен
+            currentLaserIndex = 0;
+            addLaser();
+            applyVignette();
+            
+            // Меняем фон на fire.webm
+            backgroundVideo.pause(); // Останавливаем текущее видео
+            backgroundVideo.querySelector('source').src = 'images/fire.webm'; // Указываем новый источник
+            backgroundVideo.load(); // Загружаем новое видео
+            backgroundVideo.play(); // Запускаем воспроизведение
+        } else if (currentLaserIndex < laserImagePaths.length - 1) {
+            // Переключаем на следующий лазер
+            currentLaserIndex++;
+            updateLaser();
+        } else {
+            // Удаляем слой лазера и возвращаем старый фон
+            removeLaser();
+            removeVignette();
+    
+            // Возвращаем оригинальный фон
+            backgroundVideo.pause();
+            backgroundVideo.querySelector('source').src = 'images/background.webm';
+            backgroundVideo.load();
+            backgroundVideo.play();
+        }
+    });
+    
+
+    function addLaser() {
+        const laserImageObj = new Image();
+        laserImageObj.onload = function () {
+            // Создаём лазер как Konva.Image
+            laserImage = new Konva.Image({
+                x: 50, // Начальная позиция X
+                y: 50, // Начальная позиция Y
+                image: laserImageObj,
+                width: 400, // Ширина
+                height: 400, // Высота
+                draggable: true, // Объект перемещаемый
+            });
+    
+            // Добавляем лазер на слой
+            laserLayer.add(laserImage);
+            laserLayer.batchDraw();
+    
+            // Создаём трансформер для лазера
+            const transformer = new Konva.Transformer({
+                nodes: [laserImage], // Устанавливаем трансформер на лазер
+                keepRatio: true, // Сохраняем пропорции
+                rotateEnabled: true, // Разрешаем вращение
+                enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'middle-left', 'middle-right', 'bottom-center'],
+            });
+    
+            // Добавляем трансформер на тот же слой
+            laserLayer.add(transformer);
+    
+            // Событие клика на лазер, чтобы установить трансформер
+            laserImage.on('click', (e) => {
+                transformer.nodes([e.target]); // Устанавливаем трансформер на текущий объект
+                laserLayer.batchDraw();
+                e.cancelBubble = true; // Предотвращаем всплытие события
+            });
+    
+            // Обновляем текст кнопки
+            addLaserButton.textContent = 'NEXT LASER';
+        };
+    
+        laserImageObj.src = laserImagePaths[currentLaserIndex];
+    }
+    
+
+    function updateLaser() {
+        if (laserImage) {
+            const laserImageObj = new Image();
+            laserImageObj.onload = function() {
+                laserImage.image(laserImageObj);
+                laserLayer.batchDraw();
+            };
+            laserImageObj.src = laserImagePaths[currentLaserIndex];
+        }
+    }
+
+    function removeLaser() {
+        laserLayer.removeChildren();
+        laserLayer.batchDraw();
+        currentLaserIndex = -1;
+        laserImage = null;
+        addLaserButton.textContent = 'LASER'; // Возвращаем исходный текст кнопки
+    }
+
+    // Применение эффекта виньетки
+    function applyVignette() {
+        const vignette = new Konva.Rect({
+            x: 0,
+            y: 0,
+            width: stage.width(),
+            height: stage.height(),
+            fillRadialGradientStartPoint: { x: stage.width() / 2, y: stage.height() / 2 },
+            fillRadialGradientEndPoint: { x: stage.width() / 2, y: stage.height() / 2 },
+            fillRadialGradientStartRadius: 0,
+            fillRadialGradientEndRadius: Math.max(stage.width(), stage.height()) * 0.8,
+            fillRadialGradientColorStops: [
+                0, 'rgba(0,0,0,0)',       // Центр прозрачный
+                0.7, 'rgba(0,0,0,0.4)',   // Полупрозрачный переход
+                1, 'rgba(0,0,0,0.7)'      // Тёмные края
+            ],
+            listening: false, // Слой не перехватывает события
+        });
+        
+
+        vignetteLayer.add(vignette);
+        vignetteLayer.batchDraw();
+    
+        console.log('Виньетка добавлена'); // Отладочный вывод
+    }
+
+    // Удаление эффекта виньетки
+    function removeVignette() {
+        vignetteLayer.removeChildren();
+        vignetteLayer.batchDraw();
+    }
 
     function handleBackgroundImageUpload(event) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function(e) {
-                backgroundImageObj.src = e.target.result;
-                backgroundImageObj.onload = function() {
-                    drawBackground();
+            reader.onload = function (e) {
+                const uploadedImage = new Konva.Image({
+                    x: 0,
+                    y: 0,
+                    width: stage.width(),
+                    height: stage.height(),
+                    image: new Image(),
+                    listening: false, // Отключаем перехват событий мыши
+                });
+    
+                uploadedImage.image().src = e.target.result;
+                uploadedImage.image().onload = function () {
+                    backgroundLayer.removeChildren(); // Убираем старые изображения
+                    backgroundLayer.add(uploadedImage); // Добавляем новое изображение
+                    backgroundLayer.batchDraw();
                     showSaveButton();
                 };
             };
@@ -45,12 +197,14 @@ document.addEventListener('DOMContentLoaded', function() {
         uploadContainer.style.display = 'none';
         saveContainer.style.display = 'block';
         resetContainer.style.display = 'block';
+        laserContainer.style.display = 'block';
     }
 
     function showUploadButton() {
         uploadContainer.style.display = 'block';
         saveContainer.style.display = 'none';
         resetContainer.style.display = 'none';
+        laserContainer.style.display = 'none';
         resetBackground();
         initializeHelmet();
     }
@@ -62,6 +216,12 @@ document.addEventListener('DOMContentLoaded', function() {
     function resetBackground() {
         backgroundLayer.removeChildren();
         backgroundLayer.batchDraw();
+        removeLaser();
+        removeVignette();
+        backgroundVideo.pause();
+        backgroundVideo.querySelector('source').src = 'images/background.webm';
+        backgroundVideo.load();
+        backgroundVideo.play();
         backgroundImageInput.value = '';  // Reset the input value to ensure change event triggers
     }
 
@@ -94,43 +254,40 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function initializeHelmet() {
+        // Удаляем старые шлемы и трансформеры
+        helmetLayer.removeChildren();
+        helmetLayer.batchDraw();
+    
         let helmet = new Konva.Image({
             x: 140,
             y: 20,
             image: helmetImageObj,
             draggable: true,
         });
-
-        helmet.on('transform', function() {
-            updateHelmetDiv();
-            handlesLayer.batchDraw();
-        });
-
-        helmet.on('dragmove', function() {
-            updateHelmetDiv();
-            handlesLayer.batchDraw();
-        });
-
-        helmet.on('click', function(e) {
-            showTransformer();
-            e.cancelBubble = true;
-        });
-
-        helmetLayer.removeChildren();
+    
         helmetLayer.add(helmet);
-
-        transformer = new Konva.Transformer({
-            nodes: [helmet],
+    
+        // Создаём новый трансформер
+        const helmetTransformer = new Konva.Transformer({
+            nodes: [helmet], // Привязываем трансформер к новому шлему
             keepRatio: true,
             rotateEnabled: true,
             enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'middle-left', 'middle-right', 'bottom-center'],
         });
-        handlesLayer.removeChildren();
-        handlesLayer.add(transformer);
-
+    
+        helmetLayer.add(helmetTransformer);
+    
+        // Обновляем трансформер при клике на шлем
+        helmet.on('click', function (e) {
+            helmetTransformer.nodes([e.target]);
+            helmetLayer.batchDraw();
+            e.cancelBubble = true; // Останавливаем всплытие события
+        });
+    
         stage.batchDraw();
     }
-
+    
+    
     function updateHelmetPreview() {
         const previewContainer = document.getElementById('helmetPreview');
         previewContainer.innerHTML = '';
@@ -175,16 +332,29 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function showTransformer() {
-        if (transformer) {
+        stage.find('Transformer').forEach((transformer) => {
             transformer.show();
-            handlesLayer.batchDraw();
-        }
+        });
+        stage.batchDraw(); // Обновляем канвас
     }
 
     function hideTransformer() {
-        if (transformer) {
+        stage.find('Transformer').forEach((transformer) => {
+            transformer.nodes([]);
             transformer.hide();
-            handlesLayer.batchDraw();
-        }
+        });
+        stage.batchDraw(); // Обновляем канвас
     }
+
+    stage.on('click', (e) => {
+        if (e.target === stage) {
+            [laserLayer, helmetLayer].forEach((layer) => {
+                layer.find('Transformer').forEach((transformer) => transformer.nodes([]));
+            });
+            stage.batchDraw();
+        }
+    });
+    
+    
+    
 });
