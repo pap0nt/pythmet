@@ -32,7 +32,9 @@ document.addEventListener('DOMContentLoaded', function() {
         'images/laser/laser1.png',
         'images/laser/laser2.png',
         'images/laser/laser3.png',
+        'images/laser/laser4.png',
         'images/laser/laser5.png',
+        'images/laser/laser6.png',
         'images/laser/laser7.png'
 
     ];
@@ -76,14 +78,19 @@ document.addEventListener('DOMContentLoaded', function() {
     function addLaser() {
         const laserImageObj = new Image();
         laserImageObj.onload = function () {
-            // Создаём лазер как Konva.Image
             hideHelmetTransformer();
+    
+            // Удаляем старый трансформер, если он есть
+            const existingTransformer = laserLayer.find('Transformer')[0];
+            if (existingTransformer) {
+                existingTransformer.destroy();
+            }
+    
+            // Создаём новый лазер
             laserImage = new Konva.Image({
                 x: 50, // Начальная позиция X
                 y: 50, // Начальная позиция Y
                 image: laserImageObj,
-                width: 400, // Ширина
-                height: 400, // Высота
                 draggable: true, // Объект перемещаемый
             });
     
@@ -91,9 +98,9 @@ document.addEventListener('DOMContentLoaded', function() {
             laserLayer.add(laserImage);
             laserLayer.batchDraw();
     
-            // Создаём трансформер для лазера
+            // Создаём новый трансформер для лазера
             const transformer = new Konva.Transformer({
-                nodes: [laserImage], // Устанавливаем трансформер на лазер
+                nodes: [laserImage], // Привязываем трансформер к новому лазеру
                 keepRatio: true, // Сохраняем пропорции
                 rotateEnabled: true, // Разрешаем вращение
                 enabledAnchors: ['top-left', 'top-right', 'bottom-left', 'bottom-right', 'middle-left', 'middle-right', 'bottom-center'],
@@ -102,7 +109,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Добавляем трансформер на тот же слой
             laserLayer.add(transformer);
     
-            // Событие клика на лазер, чтобы установить трансформер
+            // Событие клика на лазер для обновления трансформера
             laserImage.on('click', (e) => {
                 transformer.nodes([e.target]); // Устанавливаем трансформер на текущий объект
                 laserLayer.batchDraw();
@@ -115,14 +122,21 @@ document.addEventListener('DOMContentLoaded', function() {
     
         laserImageObj.src = laserImagePaths[currentLaserIndex];
     }
-    
-
     function updateLaser() {
         if (laserImage) {
             const laserImageObj = new Image();
-            laserImageObj.onload = function() {
+            laserImageObj.onload = function () {
+                // Обновляем изображение лазера
                 laserImage.image(laserImageObj);
                 laserLayer.batchDraw();
+    
+                // Находим текущий трансформер
+                const transformer = laserLayer.find('Transformer')[0];
+                if (transformer) {
+                    // Привязываем трансформер к обновлённому лазеру
+                    transformer.nodes([laserImage]);
+                    laserLayer.batchDraw();
+                }
             };
             laserImageObj.src = laserImagePaths[currentLaserIndex];
         }
