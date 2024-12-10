@@ -77,6 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const laserImageObj = new Image();
         laserImageObj.onload = function () {
             // Создаём лазер как Konva.Image
+            hideHelmetTransformer();
             laserImage = new Konva.Image({
                 x: 50, // Начальная позиция X
                 y: 50, // Начальная позиция Y
@@ -132,6 +133,7 @@ document.addEventListener('DOMContentLoaded', function() {
         laserLayer.batchDraw();
         currentLaserIndex = -1;
         laserImage = null;
+        showHelmetTransformer();
         addLaserButton.textContent = 'LASER'; // Возвращаем исходный текст кнопки
     }
 
@@ -329,6 +331,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function updateHelmetDiv() {
         // Implement based on your requirements, adjusting position and size of a div element
+    }
+
+    function hideHelmetTransformer() {
+        helmetLayer.find('Transformer').forEach((transformer) => {
+            transformer.nodes([]);
+            transformer.hide();
+        });
+        helmetLayer.batchDraw();
+    }
+    
+    function showHelmetTransformer() {
+        const helmet = helmetLayer.find('Image')[0]; // Предполагаем, что шлем единственный
+        const helmetTransformer = helmetLayer.find('Transformer')[0];
+        if (helmet && helmetTransformer) {
+            helmetTransformer.nodes([helmet]);
+            helmetTransformer.show();
+        }
+        helmetLayer.batchDraw();
     }
 
     function showTransformer() {

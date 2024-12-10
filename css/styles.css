@@ -304,6 +304,7 @@ input[type="file"] {
 
 
 #addLaserButton {
+    font-family: 'Familjen Grotesk', sans-serif;
     display: inline-block;
     cursor: pointer;
     background-color: #110F23;
