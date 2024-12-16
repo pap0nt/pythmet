@@ -204,8 +204,7 @@ input[type="file"] {
     border-radius: 5px;
     border: 2px solid #110F23;
     text-align: center;
-    font-size: 16px;
-    height: 40px;  
+    font-size: 16px; 
     line-height: 18px;
     transition: all 0.2s ease-in-out;
 }
@@ -301,4 +300,25 @@ input[type="file"] {
 #enterButton:hover {
     color: rgba(255, 255, 255, 1);
     box-shadow: 0 5px 15px rgba(145, 92, 182, .4);
+}
+
+
+#addLaserButton {
+    font-family: 'Familjen Grotesk', sans-serif;
+    display: inline-block;
+    cursor: pointer;
+    background-color: #110F23;
+    border-radius: 7.5px;
+    border: 2px solid #110F23;
+    text-align: center;
+    font-size: 12px;
+    line-height: 15px;
+    padding: 10px 20px;
+    color: #E6DAFE;
+    transition: all 0.2s ease-in-out;
+}
+
+#addLaserButton:hover {
+    color: rgba(255, 255, 255, 1);
+    box-shadow: 0 5px 15px #110F2366;
 }
